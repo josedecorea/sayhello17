@@ -131,15 +131,15 @@ public class DatabaseAccess {
 
             item.setTitle1(cursor.getString(1));
             item.setSub1(cursor.getString(2));
-            //item.setAudio();
+            item.setAudio1(cursor.getString(3));
 
-            item.setTitle2(cursor.getString(3));
-            item.setSub2(cursor.getString(4));
-            //item.setAudio2();
+            item.setTitle2(cursor.getString(4));
+            item.setSub2(cursor.getString(5));
+            item.setAudio2(cursor.getString(6));
 
-            item.setTitle3(cursor.getString(5));
-            item.setSub3(cursor.getString(6));
-            //item.setAudio3();
+            item.setTitle3(cursor.getString(7));
+            item.setSub3(cursor.getString(8));
+            item.setAudio3(cursor.getString(9));
 
             //item.setWikiurl();
 
