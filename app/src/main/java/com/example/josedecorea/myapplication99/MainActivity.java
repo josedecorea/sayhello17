@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
         listview.setAdapter(adapter);
 
 
-       /* 3. 검색어 처리  */
+       /* 3. 검색어 처리  **/
 
         editsearch = (EditText) findViewById(R.id.search);
 
