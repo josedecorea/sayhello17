@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.josedecorea.myapplication99.MainActivity">
+    <item
+        android:id="@+id/menu_set"
+        android:orderInCategory="100"
+        android:title="setting"
+        />
+
+    <item
+        android:id="@+id/menu_share"
+        android:orderInCategory="100"
+        android:title="share"
+        />
+</menu>

@@ -1,35 +1,58 @@
 package com.example.josedecorea.myapplication99;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     String lang_code, lang_tab_name;
-
     ListView listview;
     ListViewAdapter adapter;
     EditText editsearch;
     ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
+    private SharedPreferences lang;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* 1. 언어설정 가져와서 언어 테이블 컬럼명 가지고 오기  */
 
         lang_code = Locale.getDefault().getLanguage();
 
+        lang = getSharedPreferences("lang", Activity.MODE_PRIVATE);
+        String mylang = lang.getString("mylang", lang_code);
+
+        /* 1. 언어설정 가져와서 언어 테이블 컬럼명 가지고 오기  */
+
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
-        lang_tab_name = databaseAccess.getLangTableName(lang_code);
+        lang_tab_name = databaseAccess.getLangTableName(mylang);
         databaseAccess.close();
 
 
@@ -46,7 +69,7 @@ public class MainActivity extends Activity {
         listview.setAdapter(adapter);
 
 
-       /* 3. 검색어 처리  **/
+       /* 3. 검색어 처리  */
 
         editsearch = (EditText) findViewById(R.id.search);
 
@@ -67,5 +90,71 @@ public class MainActivity extends Activity {
             }
         });
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.menu_set:
+                Toast.makeText(getApplicationContext(), "설정",
+                        Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_share:
+                Toast.makeText(getApplicationContext(), "앱공유",
+                        Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }
