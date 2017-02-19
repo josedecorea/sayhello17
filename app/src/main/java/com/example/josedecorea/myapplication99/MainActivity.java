@@ -1,6 +1,7 @@
 package com.example.josedecorea.myapplication99;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -110,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.menu_set:
-                Toast.makeText(getApplicationContext(), "설정",
-                        Toast.LENGTH_SHORT).show();
-                return true;
+                Intent intent = new Intent(MainActivity.this, OptionActivity.class);
+                startActivity(intent);
+
             case R.id.menu_share:
                 Toast.makeText(getApplicationContext(), "앱공유",
                         Toast.LENGTH_SHORT).show();
